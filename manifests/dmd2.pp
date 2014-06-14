@@ -36,10 +36,33 @@ class dlang::dmd2 (
     path => $dlang::path,
   }
   
+  # Create directory where we will place binaries.
+  file { "${dir_download}/bin":
+    require => Exec["dmd2.zip unzip"],
+    ensure => directory,
+  }
+  
+  # Place binaries into the new directory.
+  exec { "dmd2.zip copy binaries":
+    require => File["${dir_download}/bin"],
+    command => "cp -R ${dir_download}/dmd2/linux/bin${dlang::cpu_word_size}/. ${dir_download}/bin/",
+    creates => "${dir_download}/bin/dmd",
+    path => $dlang::path,
+  }
+  
+  # Clear the redudndant files ~350Mb.
+  exec { "dmd2 remove files":
+    #require => Exec["dmd2.zip copy binaries"],
+    subscribe => Exec["dmd2.zip copy binaries"],
+    refreshonly => true,
+    command => "rm -rf ${dir_download}/dmd2/*",
+    path => $dlang::path,
+  }
+  
   # Copy configuration file into /etc.
   exec { "dmd2 copy config":
     require => Exec["dmd2.zip unzip"],
-    command => "cp ${dir_download}/dmd2/linux/bin${dlang::cpu_word_size}/dmd.conf /etc",
+    command => "cp ${dir_download}/bin/dmd.conf /etc",
     creates => "/etc/dmd.conf",
     path => $dlang::path,
   }
@@ -47,7 +70,7 @@ class dlang::dmd2 (
   # Copy executables into /usr/local/bin.
   exec { "dmd2 copy bin":
     require => Exec["dmd2 copy config"],
-    command => "cp -R ${dir_download}/dmd2/linux/bin${dlang::cpu_word_size}/. /usr/local/bin/",
+    command => "cp -R ${dir_download}/bin/. /usr/local/bin/",
     creates => "/usr/local/bin/dmd",
     path => $dlang::path,
   }

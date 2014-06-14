@@ -28,6 +28,7 @@ class dlang::dub (
   # Extract archive.
   exec { "dub.tar.gz extract":
     command => "tar -zxvf ${dir_download}/dub.tar.gz -C ${dir_download}",
+    creates => "${dir_download}/dub",
     path => $dlang::path,
   }
   
