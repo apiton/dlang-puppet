@@ -1,0 +1,26 @@
+{
+  "author": "Apiton",
+  "checksums": {
+    "tests\\init.pp": "2a76f4f54d67c6c0ed8f16131f3d0add",
+    "manifests\\install.pp": "b9dc9f644a55df89b69bd5fcb0e2aa0c",
+    "manifests\\download.pp": "485a1d1a74fc10990f4cad725dc21ef3",
+    "spec\\spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
+    "manifests\\dmd2.pp": "966e83f5580d514598066fd7bfff6ad1",
+    "manifests\\dub.pp": "fb208c9a655af814d5afd4e1ad444e6e",
+    "manifests\\bootstrap.pp": "b822d581da2abcc8bbf3529663c3bc8a",
+    "spec\\spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "README.markdown": "0aa748101c345525e52b478f537f4a04",
+    "Modulefile": "6508c6a14a768e0b396dbe7a7a9e003e",
+    "manifests\\init.pp": "5a2cc93a9366d2b6869b85babea137ad",
+    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1"
+  },
+  "dependencies": [],
+  "description": "",
+  "license": "",
+  "name": "apiton-dlang",
+  "project_page": "",
+  "source": "",
+  "summary": "",
+  "types": [],
+  "version": "0.1.0"
+}
