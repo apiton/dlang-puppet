@@ -3,16 +3,14 @@
 class dlang::bootstrap {
  
   # We will need to unzip DMD2 package.
-  package { "unzip":
-    ensure => installed,
-  }
+  package { "unzip": }
+  
+  package { "curl": }
   
   # We will be downloading files with wget.
   if $::kernel == "Linux" {
     if ! defined(Package["wget"]) {
-      package { "wget":
-        ensure => present,
-      }
+      package { "wget": }
     }
   }
   

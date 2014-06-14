@@ -10,7 +10,8 @@ class dlang::dub (
 
 ) {
   
-  include dlang::dmd2
+  # Bootstrap...
+  include dlang
   
   # Create directory where we will download DUB binaries.
   file { $dlang::dub::dir_download:
@@ -18,6 +19,25 @@ class dlang::dub (
     ensure => directory,
   }
   
+  # Download DUB executable.
+  dlang::download { $url_tgz:
+    before => Exec["dub.tar.gz extract"],
+    destination => "${dir_download}/dub.tar.gz",
+  }
+  
+  # Extract archive.
+  exec { "dub.tar.gz extract":
+    command => "tar -zxvf ${dir_download}/dub.tar.gz -C ${dir_download}",
+    path => $dlang::path,
+  }
+  
+  # Copy executable into /usr/local/bin.
+  exec { "dub copy bin": 
+    require => Exec["dub.tar.gz extract"],
+    command => "cp ${dir_download}/dub /usr/local/bin/dub",
+    creates => "/usr/local/bin/dub",
+    path => $dlang::path,
+  }
   
   
 }

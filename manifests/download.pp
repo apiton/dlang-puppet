@@ -1,6 +1,6 @@
 
 define dlang::download (
-  $require,
+  #$require,
   $url = $title,
   $destination,
 ) {
@@ -17,7 +17,7 @@ define dlang::download (
   
   # Download package with all binaries.
   exec { "dlang::download::${url}":
-    require => $require,
+    #require => $require,
     command => "wget --output-document ${destination} '${url}'",
     creates => $destination,
     path => $dlang::path,
