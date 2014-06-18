@@ -20,17 +20,15 @@ class dlang::dmd2 (
   }
 
   # Download package with all binaries.
-  exec { "dmd2.zip download":
+  dlang::download { $url_zip:
     require => File[$dlang::dmd2::dir_download],
-    command => "wget --output-document ${dir_download}/dmd2.zip '${url_zip}'",
-    creates => "${dir_download}/dmd2.zip",
-    #logoutput => on_failure,
-    path => $dlang::path,
+    before => Exec["dmd2.zip unzip"],
+    destination => "${dir_download}/dmd2.zip",
   }
  
   # Unzip archive.
   exec { "dmd2.zip unzip":
-    require => Exec["dmd2.zip download"],
+    #require => Exec["dmd2.zip download"],
     command => "unzip ${dir_download}/dmd2.zip -d ${dir_download}",
     creates => "${dir_download}/dmd2",
     path => $dlang::path,
@@ -61,7 +59,7 @@ class dlang::dmd2 (
   
   # Copy configuration file into /etc.
   exec { "dmd2 copy config":
-    require => Exec["dmd2.zip unzip"],
+    require => Exec["dmd2.zip copy binaries"],
     command => "cp ${dir_download}/bin/dmd.conf /etc",
     creates => "/etc/dmd.conf",
     path => $dlang::path,

@@ -1,19 +1,10 @@
 
 define dlang::download (
-  #$require,
   $url = $title,
   $destination,
 ) {
   
-  # Install wget.
-  if $::kernel == "Linux" {
-    if ! defined(Package["wget"]) {
-      package { "wget":
-        ensure => present,
-        before => Exec["dlang::download::${url}"],
-      }
-    }
-  }
+  include dlang
   
   # Download package with all binaries.
   exec { "dlang::download::${url}":

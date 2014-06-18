@@ -15,12 +15,13 @@ class dlang::dub (
   
   # Create directory where we will download DUB binaries.
   file { $dlang::dub::dir_download:
-    require => Class["dlang::dmd2"],
+    require => Class["dlang"],
     ensure => directory,
   }
   
   # Download DUB executable.
   dlang::download { $url_tgz:
+    require => File[$dlang::dub::dir_download],
     before => Exec["dub.tar.gz extract"],
     destination => "${dir_download}/dub.tar.gz",
   }
@@ -39,6 +40,5 @@ class dlang::dub (
     creates => "/usr/local/bin/dub",
     path => $dlang::path,
   }
-  
-  
+
 }
